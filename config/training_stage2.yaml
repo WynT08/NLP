@@ -1,0 +1,58 @@
+# Stage 2: Aspect Sentiment Classification Training Configuration
+
+model:
+  backbone: "vinai/phobert-large"
+  num_labels: 4  # positive, negative, neutral, mixed
+  max_length: 256
+  use_negation_features: true
+  use_intensity_features: true
+
+training:
+  output_dir: "models/stage2_sentiment"
+  num_train_epochs: 8
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 32
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  
+  # Class weighting for imbalanced data
+  use_class_weights: true
+  class_weights: [1.0, 1.0, 1.5, 2.0]  # positive, negative, neutral, mixed
+  
+  # Optimization
+  fp16: true
+  gradient_accumulation_steps: 2
+  gradient_checkpointing: false
+  max_grad_norm: 1.0
+  
+  # Logging
+  logging_steps: 50
+  logging_dir: "logs/stage2"
+  
+  # Evaluation
+  evaluation_strategy: "epoch"
+  save_strategy: "epoch"
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "macro_f1"
+  greater_is_better: true
+  
+  # Early stopping
+  early_stopping_patience: 3
+  
+  # Other
+  seed: 42
+  dataloader_num_workers: 4
+  remove_unused_columns: false
+
+data:
+  train_file: "data/processed/train.json"
+  val_file: "data/processed/val.json"
+  test_file: "data/processed/test.json"
+
+label_map:
+  "positive": 0
+  "negative": 1
+  "neutral": 2
+  "mixed": 3
