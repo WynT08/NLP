@@ -1,0 +1,51 @@
+# Stage 1: Aspect Extraction Training Configuration
+
+model:
+  backbone: "vinai/phobert-large"
+  num_labels: 3  # B-ASP, I-ASP, O
+  max_length: 256
+
+training:
+  output_dir: "models/stage1_aspect_extraction"
+  num_train_epochs: 10
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 32
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  
+  # Optimization
+  fp16: true
+  gradient_accumulation_steps: 2
+  gradient_checkpointing: false
+  max_grad_norm: 1.0
+  
+  # Logging
+  logging_steps: 50
+  logging_dir: "logs/stage1"
+  
+  # Evaluation
+  evaluation_strategy: "epoch"
+  save_strategy: "epoch"
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "f1"
+  greater_is_better: true
+  
+  # Early stopping
+  early_stopping_patience: 3
+  
+  # Other
+  seed: 42
+  dataloader_num_workers: 4
+  remove_unused_columns: false
+
+data:
+  train_file: "data/processed/train.json"
+  val_file: "data/processed/val.json"
+  test_file: "data/processed/test.json"
+
+label_map:
+  "O": 0
+  "B-ASP": 1
+  "I-ASP": 2

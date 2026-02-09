@@ -1,0 +1,129 @@
+# Vietnamese ABSA Configuration
+
+model:
+  backbone: "vinai/phobert-large"
+  max_length: 256
+  use_negation_features: true
+  use_intensity_features: true
+
+preprocessing:
+  lowercase: true
+  normalize_emojis: true
+  word_segmentation: true
+  
+  # Sentiment Emojis (80+)
+  positive_emojis:
+    - "😊" - "😀" - "😃" - "😄" - "😁" - "😆" - "😅" - "🤣" - "😂" - "🙂"
+    - "🙃" - "😉" - "😌" - "😍" - "🥰" - "😘" - "😗" - "😙" - "😚" - "😋"
+    - "😛" - "😝" - "😜" - "🤪" - "🤗" - "🤩" - "🥳" - "😇" - "👍" - "👏"
+    - "🙌" - "👌" - "✌️" - "🤞" - "💪" - "🎉" - "🎊" - "💖" - "💕" - "💓"
+    - "💗" - "💝" - "❤️" - "🧡" - "💛" - "💚" - "💙" - "💜" - "🤍" - "💯"
+  
+  negative_emojis:
+    - "😢" - "😭" - "😞" - "😔" - "😟" - "😕" - "🙁" - "☹️" - "😣" - "😖"
+    - "😫" - "😩" - "🥺" - "😤" - "😠" - "😡" - "🤬" - "😱" - "😨" - "😰"
+    - "😥" - "😓" - "🤯" - "😳" - "🥵" - "🥶" - "😶" - "😐" - "😑" - "🙄"
+    - "😬" - "🤥" - "😷" - "🤒" - "🤕" - "🤢" - "🤮" - "👎" - "💔" - "😿"
+  
+  neutral_emojis:
+    - "😐" - "😑" - "😶" - "🙄" - "🤔" - "🤨" - "🧐" - "😏" - "😪" - "😴"
+  
+  # Negation Words (50+)
+  negation_words:
+    # Standard
+    - "không" - "chẳng" - "chưa" - "đừng" - "chớ" - "không phải"
+    # Informal
+    - "ko" - "k" - "hổng" - "hong" - "khong" - "khum" - "hem"
+    # Regional
+    - "ông" - "bà" - "mày" - "mình" - "anh" - "chị"
+    # Indirect negation
+    - "thiếu" - "kém" - "yếu" - "tệ" - "dở" - "tồi" - "kém chất lượng"
+    # Compound negations
+    - "không bao giờ" - "chẳng bao giờ" - "không thể" - "không nên"
+    - "không còn" - "chẳng còn" - "không có" - "chẳng có"
+    # Prefixes
+    - "vô" - "vô cùng tệ" - "phi" - "bất" - "vô nghĩa"
+    - "ít" - "hiếm" - "chút" - "tí" - "mỗi"
+  
+  # Intensity Words (100+)
+  intensity_words:
+    # Mild (1.2x)
+    - "hơi" - "khá" - "tương đối" - "kha khá" - "phần nào"
+    # Moderate (1.5x)
+    - "rất" - "lắm" - "nhiều" - "mạnh" - "thật"
+    # Strong (2.0x)
+    - "cực" - "siêu" - "hết sức" - "vô cùng" - "cực kỳ"
+    - "tột" - "tột bậc" - "vô cùng tận" - "quá đỗi"
+    # Extreme (2.5x)
+    - "quá" - "quá trình" - "quá quắt" - "dễ sợ" - "khủng khiếp"
+    - "kinh khủng" - "kinh hoàng" - "ghê gớm" - "phi thường"
+    - "tuyệt vời" - "tuyệt hảo" - "tuyệt đỉnh" - "hoàn hảo"
+    # Slang intensifiers
+    - "ghê" - "ghê quá" - "ghê gớm" - "ngất" - "ngất ngây"
+    - "đỉnh" - "chấn" - "cháy" - "bá đạo" - "mãi đỉnh"
+    # Colloquial
+    - "wá" - "wa" - "vcl" - "vkl" - "vcđ"
+  
+  # Contrast Words (20+)
+  contrast_words:
+    - "nhưng" - "mà" - "còn" - "tuy nhiên" - "song"
+    - "tuy" - "dù" - "mặc dù" - "cho dù" - "bất chấp"
+    - "dẫu" - "dầu" - "thế nhưng" - "nhưng mà"
+    - "không những...mà còn" - "vừa...vừa"
+  
+  # Positive Indicators (100+)
+  positive_indicators:
+    - "tốt" - "đẹp" - "hay" - "ngon" - "chất lượng" - "xuất sắc"
+    - "tuyệt" - "tuyệt vời" - "hoàn hảo" - "ưng ý" - "hài lòng"
+    - "thích" - "yêu" - "khoái" - "mê" - "ổn" - "ok" - "okie"
+    - "nhanh" - "bền" - "đáng giá" - "xứng đáng" - "sang"
+    - "đẳng cấp" - "cao cấp" - "premium" - "chính hãng"
+    - "an toàn" - "tin cậy" - "đáng tin" - "uy tín"
+  
+  # Negative Indicators (100+)
+  negative_indicators:
+    - "xấu" - "kém" - "tệ" - "dở" - "tồi" - "thất vọng"
+    - "chán" - "nhàm" - "buồn" - "ghét" - "không thích"
+    - "lỗi" - "hỏng" - "vỡ" - "hư" - "rách" - "bẩn"
+    - "chậm" - "yếu" - "kém chất lượng" - "giả" - "hàng kém"
+    - "mỏng" - "nhẹ cân" - "nhạt" - "lạt" - "khó chịu"
+  
+  # Downtoners
+  downtoners:
+    - "hơi" - "khá" - "tương đối" - "một chút" - "ít"
+  
+  # Neutral Indicators
+  neutral_indicators:
+    - "bình thường" - "tạm" - "được" - "cũng được" - "ổn áp"
+
+sliding_window:
+  max_length: 256
+  stride: 128
+  overlap: 64
+
+augmentation:
+  back_translation:
+    enabled: true
+    probability: 0.3
+    intermediate_lang: "en"
+  
+  contextual_replacement:
+    enabled: true
+    probability: 0.3
+    mask_probability: 0.15
+    top_k: 5
+  
+  random_operations:
+    enabled: true
+    swap_probability: 0.1
+    delete_probability: 0.1
+    insert_probability: 0.1
+  
+  mixup:
+    enabled: false
+    alpha: 0.2
+
+device:
+  use_cuda: true
+  fp16: true
+  seed: 42
